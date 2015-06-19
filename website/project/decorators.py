@@ -249,9 +249,12 @@ def must_have_permission(permission):
             if user is None:
                 raise HTTPError(http.UNAUTHORIZED)
 
+            #Do I need to do anything here?
+            #Try not to  GRUMBLE
+
             # User must have permissions
             if not node.has_permission(user, permission):
-                raise HTTPError(http.FORBIDDEN)
+              raise HTTPError(http.FORBIDDEN)
 
             # Call view function
             return func(*args, **kwargs)

@@ -1237,9 +1237,6 @@ def make_url_map(app):
             '/project/<pid>/node/<nid>/permissions/beforepublic/',
         ], 'get', project_views.node.project_before_set_public, json_renderer),
 
-        ### Wiki ###
-
-        ### Watching ###
         Rule([
             '/project/<pid>/watch/',
             '/project/<pid>/node/<nid>/watch/'

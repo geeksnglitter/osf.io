@@ -94,6 +94,8 @@ def render_content(content, node):
 class NodeWikiPage(GuidStoredObject):
 
     _id = fields.StringField(primary=True)
+    is_publicly_editable = fields.BooleanField(default=True, index=True)
+    # what are these and do i need to use them? GRUMBLE
 
     page_name = fields.StringField(validate=validate_page_name)
     version = fields.IntegerField()
@@ -164,6 +166,19 @@ class NodeWikiPage(GuidStoredObject):
         self.page_name = new_name
         if save:
             self.save()
+
+    def set_editing(self, permissions, auth=None):
+        """Set the editing permissions for this node.
+
+        :param permissions: A string, either 'public' or 'private'
+        :param auth: All the auth informtion including user, API key.
+        """
+        if permissions == 'public' and not self.is_publicly_editable:
+            self.is_publicly_editable = True
+        elif permissions == 'private' and self.is_publicly_editable:
+            self.is_publicly_editable = False
+        else:
+            return False
 
     def to_json(self):
         return {}

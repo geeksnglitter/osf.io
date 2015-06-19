@@ -719,6 +719,7 @@ class Node(GuidStoredObject, AddonModelMixin, IdentifierMixin):
             is_api_node = auth.api_node == self
         else:
             is_api_node = False
+
         return (
             (user and self.has_permission(user, 'write'))
             or is_api_node
