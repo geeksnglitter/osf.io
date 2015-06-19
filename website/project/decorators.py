@@ -223,7 +223,7 @@ def must_be_addon_authorizer(addon_name):
     return wrapper
 
 
-def must_have_permission(permission):
+def must_have_permission(permission,wiki=False):
     """Decorator factory for checking permissions. Checks that user is logged
     in and has necessary permissions for node. Node must be passed in keyword
     arguments to view function.
@@ -249,12 +249,15 @@ def must_have_permission(permission):
             if user is None:
                 raise HTTPError(http.UNAUTHORIZED)
 
-            #Do I need to do anything here?
-            #Try not to  GRUMBLE
+            # Check if user has wiki permissions
+            if wiki:
+                addon = node.get_addon('wiki')
+                if addon and addon.is_publicly_editable:
+                    return func(*args, **kwargs)
 
             # User must have permissions
-            # if not node.has_permission(user, permission):
-            #    raise HTTPError(http.FORBIDDEN)
+            if not node.has_permission(user, permission):
+               raise HTTPError(http.FORBIDDEN)
 
             # Call view function
             return func(*args, **kwargs)
@@ -264,3 +267,11 @@ def must_have_permission(permission):
 
     # Return decorator
     return wrapper
+
+# def must_have_permission_or_public_editing(permission="write"):
+#     if public_editing:
+#         return True
+#     else:
+#         return must_have_permission(permission)
+
+must_have_permission_or_public_wiki = must_have_permission("write", True)
