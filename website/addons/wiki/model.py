@@ -31,8 +31,6 @@ logger = logging.getLogger(__name__)
 
 
 class AddonWikiNodeSettings(AddonNodeSettingsBase):
-
-<<<<<<< HEAD
     is_publicly_editable = fields.BooleanField(default=False, index=True)
     # what are these and why do i need to use them? GRUMBLE
     #also can only set editing public if project is public already
@@ -51,10 +49,9 @@ class AddonWikiNodeSettings(AddonNodeSettingsBase):
             self.save()
         else:
             return False
-=======
+
     complete = True
     has_auth = True
->>>>>>> 151d0e9dd3967197738953fea58b5a8ca9b3b834
 
     def after_register(self, node, registration, user, save=True):
         """Copy wiki settings to registrations."""

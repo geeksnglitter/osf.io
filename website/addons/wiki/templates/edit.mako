@@ -155,7 +155,7 @@
                             <div class="pull-right">
                                 <!-- Version Picker -->                            
                                 <select data-bind="value:viewVersion" id="viewVersionSelect">
-                                    % if user['can_edit']: ##GRUMBLE CHANGE HERE
+                                    % if user['can_edit']:
                                         <option value="preview" ${'selected' if version_settings['view'] == 'preview' else ''}>Preview</option>
                                     % endif
                                     <option value="current" ${'selected' if version_settings['view'] == 'current' else ''}>Current</option>
@@ -342,7 +342,7 @@
 ${parent.javascript_bottom()}
 <script>
 
-    var canEdit = ${json.dumps(user['can_edit'])}; //GRUMBLE CHANGE HERE
+    var canEdit = ${json.dumps(user['can_edit'])};
 
     var canEditPageName = canEdit && ${json.dumps(
         wiki_id and wiki_name != 'home'
@@ -381,7 +381,6 @@ ${parent.javascript_bottom()}
 <script>
 $("#makeEditable").click(function() {
 $.post("${node['url']}/wiki/home/permissions/public/");
-alert("Hello! I am an alert box!!");
 });
 $("#makeNotEditable").click(function() {
 $.post("${node['url']}wiki/home/permissions/private/");
