@@ -10,7 +10,7 @@
     </div>
     <div class="col-sm-6">
         <div class="pull-right">
-            <div class="btn-group">
+            <div class="btn-group" id="makeEditable">
                 % if node['is_public']:
                     % if not wiki_publicly_editable:
                         <button class='btn btn-default btn-sm disabled'>Privately Editable</button>
@@ -233,7 +233,7 @@
         <h3 class="modal-title">The permissions for this page have changed</h3>
       </div>
       <div class="modal-body">
-        <p>Your browser should refresh shortly&hellip;</p>
+        <p>Your browser should refresh shortly.&hellip;</p>
       </div>
     </div>
   </div>
@@ -246,7 +246,7 @@
         <h3 class="modal-title">The content of this wiki has been moved to a different page</h3>
       </div>
       <div class="modal-body">
-        <p>Your browser should refresh shortly&hellip;</p>
+        <p>Your browser should refresh shortly.&hellip;</p>
       </div>
     </div>
   </div>
@@ -378,13 +378,13 @@ ${parent.javascript_bottom()}
 <script src=${"/static/public/js/wiki-edit-page.js" | webpack_asset}></script>
 
 
-<script>
-$("#makeEditable").click(function() {
-$.post("${node['url']}/wiki/home/permissions/public/");
-});
-$("#makeNotEditable").click(function() {
-$.post("${node['url']}wiki/home/permissions/private/");
-});
-</script>
+## <script>
+## $("#makeEditable").click(function() {
+## $.post("${node['url']}/wiki/home/permissions/public/");
+## });
+## $("#makeNotEditable").click(function() {
+## $.post("${node['url']}wiki/home/permissions/private/");
+## });
+## </script>
 
 </%def>
