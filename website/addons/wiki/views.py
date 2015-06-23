@@ -301,6 +301,7 @@ def project_wiki_view(auth, wname, path=None, **kwargs):
         'wiki_id': wiki_page._primary_key if wiki_page else None,
         'wiki_name': wiki_page.page_name if wiki_page else wiki_name,
         'wiki_content': content,
+        'wiki_publicly_editable': wiki_settings.is_publicly_editable,
         'use_python_render': use_python_render,
         'page': wiki_page,
         'version': version,
@@ -375,7 +376,6 @@ def edit_wiki_permissions(**kwargs):
         'status': 'success',
         'permissions': permissions,
     }
-
 
 @must_be_valid_project
 @must_have_addon('wiki', 'node')

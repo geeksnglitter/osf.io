@@ -4,15 +4,28 @@
 ## Use full page width
 <%def name="container_class()">container-xxl</%def>
 
-<a id='makeEditable' class="btn btn-default">Make Publicly Editable</a>
-
 <div class="row" style="margin-bottom: 5px;">
     <div class="col-sm-6">
         <%include file="wiki/templates/status.mako"/>
     </div>
     <div class="col-sm-6">
         <div class="pull-right">
-          <div class="switch"></div>
+            <div class="btn-group">
+                % if node['is_public']:
+                    % if not wiki_publicly_editable:
+                        <button class='btn btn-default btn-sm disabled'>Privately Editable</button>
+                        % if 'admin' in user['permissions']:
+                            <a class="btn btn-default btn-sm" data-bind="click: makePubliclyEditable" id="makeEditable">Make Editing Public</a>
+                        % endif
+                    % else:
+                        % if 'admin' in user['permissions']:
+                            <a class="btn btn-default btn-sm" data-bind="click: makePrivatelyEditable" id="makeNotEditable">Make Editing Private</a>
+                        % endif
+                        <button class="btn btn-default btn-sm disabled">Publicly Editable</button>
+                    % endif
+                % endif
+            </div>
+          <div class="switch" style="display: inline"></div>
           </div>
     </div>
 </div>
@@ -366,11 +379,12 @@ ${parent.javascript_bottom()}
 
 
 <script>
-$( "#makeEditable" ).click(function() {
-##   "${node['url']}wiki/home/permissions/private/";
-$.post("http://localhost:5000/project/kb2pm/wiki/home/permissions/public/");
-##     alert( "Handler for .click() called." );
-##     "${node['url']}files/"
+$("#makeEditable").click(function() {
+$.post("${node['url']}/wiki/home/permissions/public/");
+alert("Hello! I am an alert box!!");
+});
+$("#makeNotEditable").click(function() {
+$.post("${node['url']}wiki/home/permissions/private/");
 });
 </script>
 
