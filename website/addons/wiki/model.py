@@ -32,8 +32,6 @@ logger = logging.getLogger(__name__)
 
 class AddonWikiNodeSettings(AddonNodeSettingsBase):
     is_publicly_editable = fields.BooleanField(default=False, index=True)
-    # what are these and why do i need to use them? GRUMBLE
-    #also can only set editing public if project is public already
 
     def set_editing(self, permissions, auth=None):
         """Set the editing permissions for this node.
