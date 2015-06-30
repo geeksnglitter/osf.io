@@ -48,9 +48,6 @@ class AddonWikiNodeSettings(AddonNodeSettingsBase):
         else:
             return False
 
-    complete = True
-    has_auth = True
-
     def after_register(self, node, registration, user, save=True):
         """Copy wiki settings to registrations."""
         clone = self.clone()
