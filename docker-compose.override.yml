@@ -95,7 +95,7 @@ volumes:
 #  mfr-sync:
 #    external: true
 
-#  emberosf-sync:
+#  ember-osf-sync:
 #    external: true
 
 #  preprints-sync:
