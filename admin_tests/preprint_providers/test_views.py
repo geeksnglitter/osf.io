@@ -235,7 +235,7 @@ class TestPreprintProviderExportImport(AdminTestCase):
         res = self.view.get(self.request)
         content_dict = json.loads(res.content)
 
-        content_dict['fields']['_id']='new_id'
+        content_dict['fields']['_id'] = 'new_id'
         file = StringIO(u'' + json.dumps(content_dict))
         self.import_request.FILES['file'] = InMemoryUploadedFile(file, None, 'data', 'application/json', 500, None, {})
 
