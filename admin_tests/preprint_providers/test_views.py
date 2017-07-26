@@ -238,7 +238,7 @@ class TestPreprintProviderExportImport(AdminTestCase):
 
         content_dict['fields']['_id']='new_id'
         file = StringIO(u''+json.dumps(content_dict))
-        self.import_request.FILES['file'] = InMemoryUploadedFile(file, None, "data", 'application/json', 500, None, {})
+        self.import_request.FILES['file'] = InMemoryUploadedFile(file, None, 'data', 'application/json', 500, None, {})
 
         res = self.import_view.post(self.import_request)
 
@@ -259,18 +259,18 @@ class TestPreprintProviderExportImport(AdminTestCase):
         res = self.view.get(self.request)
         content_dict = json.loads(res.content)
 
-        new_subject_data = {"include":[], "exclude":[]}
-        new_subject_data["custom"] = {
-            "TestSubject1": {
-                "parent": "",
-                "bepress": "Kinesiology"
+        new_subject_data = {'include': [], 'exclude': []}
+        new_subject_data['custom'] = {
+            'TestSubject1': {
+                'parent': '',
+                'bepress': 'Kinesiology'
             }
         }
 
-        content_dict['fields']['subjects'] = new_subject_data
+        content_dict['fields']['subjects'] = json.dumps(new_subject_data)
         content_dict['fields']['licenses_acceptable'] = ['CCBY']
         file = StringIO(u'' + json.dumps(content_dict))
-        self.import_request.FILES['file'] = InMemoryUploadedFile(file, None, "data", 'application/json', 500, None, {})
+        self.import_request.FILES['file'] = InMemoryUploadedFile(file, None, 'data', 'application/json', 500, None, {})
 
         res = self.import_view.post(self.import_request)
 
