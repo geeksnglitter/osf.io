@@ -4,7 +4,6 @@ var ko = require('knockout');
 var $ = require('jquery');
 var bootbox = require('bootbox');
 require('bootstrap.growl');
-var History = require('exports?History!history');
 
 var siteLicenses = require('js/licenses');
 var licenses = siteLicenses.list;
@@ -79,7 +78,6 @@ var ViewModel = function(params) {
     self.appURL = self.params.appURL;
 
     self.tag = ko.observable('');
-    self.stateJustPushed = true;
     self.query = ko.observable('');
     self.category = ko.observable({});
     self.tags = ko.observableArray([]);
@@ -498,16 +496,14 @@ var ViewModel = function(params) {
     self.pagePrev = self.paginate.bind(self, -1);
     self.pageNext = self.paginate.bind(self, 1);
 
-    //History JS callback
+    //History callback
     self.pageChange = function() {
-        if (self.stateJustPushed) {
-            self.stateJustPushed = false;
-            return;
-        }
-
         self.loadState();
-
         self.search(true);
+    };
+
+    window.onpopstate = function (event) {
+        self.pageChange();
     };
 
     //Ensure that the first url displays properly
@@ -531,15 +527,15 @@ var ViewModel = function(params) {
         }
     };
 
-    //Load state from History JS
+    //Load state from history
     self.loadState = function() {
-        var state = History.getState().data;
+        var state = history.state;
         self.currentPage(state.page || 1);
         self.setCategory(state.filter);
         self.query(state.query || '');
     };
 
-    //Push a new state to History
+    //Push a new state to history
     self.pushState = function() {
         var state = {
             filter: '',
@@ -557,10 +553,7 @@ var ViewModel = function(params) {
 
         url += ('&page=' + self.currentPage());
 
-        //Indicate that we've just pushed a state so the
-        //Call back does not process this push as a state change
-        self.stateJustPushed = true;
-        History.pushState(state, 'OSF | Search', url);
+        history.pushState(state, 'OSF | Search', url);
     };
 
     self.setCategory = function(cat) {
@@ -578,7 +571,6 @@ function Search(selector, url, appURL) {
     var self = this;
 
     self.viewModel = new ViewModel({'url': url, 'appURL': appURL});
-    History.Adapter.bind(window, 'statechange', self.viewModel.pageChange);
 
     var data = {
         query: $osf.urlParams().q,
@@ -587,7 +579,7 @@ function Search(selector, url, appURL) {
         filter: $osf.urlParams().filter
     };
     //Ensure our state keeps its URL paramaters
-    History.replaceState(data, 'OSF | Search', location.search);
+    history.replaceState(data, 'OSF | Search', location.search);
     //Set out observables from the newly replaced state
     self.viewModel.loadState();
     //Preform search from url params
