@@ -1,9 +1,6 @@
 var m = require('mithril');
 var $osf = require('js/osfHelpers');
 
-// CSS
-require('css/meetings-and-conferences.css');
-
 
 var DonateBanner = {
     controller: function() {
